@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oração na Tempestade — Clamor de Fé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #1a1410;
+      --parchment:  #f5efe4;
+      --warm-mid:   #c8a97e;
+      --gold:       #b08040;
+      --ember:      #8b3a2a;
+      --ash:        #6b6258;
+      --cream:      #faf6ef;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN OVERLAY ───────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── CANDLELIGHT GLOW ────────────────────────────────────── */
+    .glow-bg {
+      position: fixed;
+      top: -20%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse at center, rgba(184,122,60,0.18) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+      animation: breathe 6s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%,100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+      50%      { opacity: 1;   transform: translateX(-50%) scale(1.07); }
+    }
+
+    /* ── LAYOUT ──────────────────────────────────────────────── */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 36px 100px;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────────── */
+    header {
+      text-align: center;
+      margin-bottom: 72px;
+      animation: fadeDown 1.2s ease both;
+    }
+    header .icon {
+      font-size: 2.6rem;
+      display: block;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 2px 8px rgba(176,128,64,0.35));
+      animation: flicker 4s ease-in-out infinite;
+    }
+    @keyframes flicker {
+      0%,100% { opacity: 1; }
+      45%      { opacity: 0.82; }
+      50%      { opacity: 1; }
+      80%      { opacity: 0.9; }
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.25;
+      letter-spacing: 0.04em;
+      color: var(--ember);
+    }
+    header p.subtitle {
+      margin-top: 14px;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--ash);
+      font-weight: 300;
+    }
+
+    /* ── DIVIDER ─────────────────────────────────────────────── */
+    .divider {
+      display: flex; align-items: center; gap: 16px;
+      margin: 48px 0;
+      opacity: 0.5;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .divider span { font-size: 1.1rem; color: var(--gold); }
+
+    /* ── PRAYER TEXT ─────────────────────────────────────────── */
+    .prayer {
+      animation: fadeUp 1.4s ease 0.3s both;
+    }
+    .prayer p {
+      font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+      line-height: 2;
+      font-weight: 300;
+      color: #2a211a;
+      margin-bottom: 1.6em;
+    }
+    .prayer p.opening {
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.8vw, 1.4rem);
+      color: var(--ember);
+      font-weight: 400;
+    }
+    .prayer p strong {
+      font-weight: 600;
+      color: var(--ember);
+    }
+    .prayer p em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ── EMPHASIS BLOCK ──────────────────────────────────────── */
+    .emphasis {
+      border-left: 3px solid var(--gold);
+      padding: 20px 28px;
+      margin: 40px 0;
+      background: rgba(200,169,126,0.08);
+      border-radius: 0 4px 4px 0;
+    }
+    .emphasis p {
+      font-size: clamp(1.15rem, 2.6vw, 1.3rem) !important;
+      font-style: italic;
+      color: var(--ember) !important;
+      margin-bottom: 0 !important;
+      line-height: 1.9 !important;
+    }
+
+    /* ── DECLARATION ─────────────────────────────────────────── */
+    .declaration {
+      text-align: center;
+      padding: 40px 24px;
+      margin: 48px 0;
+      background: linear-gradient(135deg, rgba(139,58,42,0.06), rgba(176,128,64,0.1));
+      border: 1px solid rgba(176,128,64,0.25);
+      border-radius: 2px;
+    }
+    .declaration p {
+      font-size: clamp(1.1rem, 2.4vw, 1.25rem);
+      line-height: 1.9;
+      font-weight: 300;
+      color: var(--ink);
+    }
+    .declaration p strong {
+      font-weight: 600;
+      color: var(--ember);
+    }
+
+    /* ── AMEN ────────────────────────────────────────────────── */
+    .amen {
+      text-align: center;
+      margin: 56px 0 40px;
+    }
+    .amen span {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ember);
+      letter-spacing: 0.12em;
+    }
+    .amen .emoji { font-style: normal; font-size: 1.6rem; display: block; margin-top: 8px; }
+
+    /* ── VERSE ───────────────────────────────────────────────── */
+    .verse {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid rgba(176,128,64,0.3);
+      border-bottom: 1px solid rgba(176,128,64,0.3);
+      margin: 48px 0;
+    }
+    .verse blockquote {
+      font-size: clamp(1.05rem, 2.3vw, 1.2rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ash);
+      line-height: 1.8;
+    }
+    .verse cite {
+      display: block;
+      margin-top: 12px;
+      font-style: normal;
+      font-size: 0.95rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(176,128,64,0.2);
+    }
+    footer p {
+      font-size: 0.9rem;
+      color: var(--ash);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+    }
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── ANIMATIONS ──────────────────────────────────────────── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 520px) {
+      .page { padding: 52px 22px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="glow-bg"></div>
+
+<main class="page">
+
+  <header>
+    <span class="icon">🕯️</span>
+    <h1>Oração na Tempestade</h1>
+    <p class="subtitle">Um clamor de fé no meio da angústia, do medo e da escuridão</p>
+  </header>
+
+  <div class="divider"><span>✦</span></div>
+
+  <article class="prayer">
+
+    <p class="opening">
+      Senhor meu Deus, estou diante de Ti partido, assustado e sem forças.<br />
+      Mas ainda estou de joelhos, porque ainda acredito.
+    </p>
+
+    <p>
+      Pai, <strong>o medo me envolve como uma névoa densa.</strong>
+      Há dias em que acordo e o peso do amanhã já me esmaga antes mesmo de me levantar.
+      A ansiedade aperta meu peito, minha mente não descansa,
+      e a angústia sussurra que não há saída.
+      Mas eu não quero ouvir essa voz. Eu quero ouvir a Tua.
+    </p>
+
+    <p>
+      Senhor, <strong>estamos passando por uma das fases mais difíceis da nossa vida.</strong>
+      Os mantimentos estão se esgotando.
+      Minha esposa carrega sozinha o peso do aluguel,
+      e eu sinto sobre mim o peso da culpa, da vergonha, da impotência.
+      Há noites em que o desespero me abraça e eu não consigo respirar de tanta dor.
+    </p>
+
+    <div class="emphasis">
+      <p>
+        Eu não sei mais o que fazer, Senhor.<br />
+        Mas sei que o Senhor sabe.<br />
+        E por isso eu clamo.
+      </p>
+    </div>
+
+    <p>
+      Pai, <strong>a falta de confiança em mim mesmo me devora por dentro.</strong>
+      Eu me pergunto se sou capaz, se mereço uma chance, se alguém ainda acredita no que tenho a oferecer.
+      A tristeza é profunda. Há momentos em que o abatimento me faz questionar tudo:
+      meu valor, meu propósito, o meu lugar nesse mundo.
+    </p>
+
+    <p>
+      Mas eu me lembro, Senhor, que <em>o Senhor não desprezou o grito do aflito,
+      nem ocultou d'Ele o Seu rosto, mas quando clamou a Ele, o ouviu.</em>
+      E então eu clamo. Com toda a força que me resta, eu clamo.
+    </p>
+
+    <p>
+      <strong>Dá-me direção, Pai.</strong>
+      Eu estou desorientado. Não sei por qual caminho seguir.
+      Há tantas portas fechadas, tantos silêncios nas respostas,
+      tanto esforço que ainda não gerou fruto visível.
+      Mostra-me um sinal. Uma confirmação. Uma brecha de luz.
+      Guia os meus passos mesmo quando eu não consigo enxergar o chão.
+    </p>
+
+    <p>
+      <strong>Dá-me sabedoria</strong> para tomar as decisões certas nesse momento delicado.
+      Para onde ir, o que aceitar, o que recusar, no que investir o pouco que ainda tenho de energia.
+      Que a Tua sapiência fale mais alto do que o meu desespero.
+    </p>
+
+    <p>
+      Senhor, <strong>eu peço uma oportunidade de trabalho.</strong>
+      Não um trabalho qualquer — um trabalho que me reergua.
+      Que me devolva a dignidade que sinto ter perdido.
+      Que prove para mim e para minha família que a luta valeu a pena.
+      Que nos permita respirar, comer, viver sem esse aperto no coração.
+    </p>
+
+    <div class="emphasis">
+      <p>
+        Eu não estou pedindo riqueza, Senhor.<br />
+        Estou pedindo um chão firme onde minha família possa ficar de pé.
+      </p>
+    </div>
+
+    <p>
+      Pai, sustenta minha esposa. Ela tem carregado tanto.
+      Dá-lhe força quando ela também quiser desabar.
+      Que ela não se sinta sozinha nessa batalha.
+      Que o nosso amor resista a essa pressão que tenta nos quebrar.
+      Protege nosso lar, nossas mentes, nossa fé.
+    </p>
+
+    <p>
+      Eu confesso, Senhor, que houve momentos em que duvidei.
+      Momentos em que pensei que o Senhor não estava olhando.
+      Momentos de raiva, de choro sem motivo aparente, de vazio que assustou.
+      Mas no fundo — no fundo mais profundo — <strong>eu ainda tenho fé.</strong>
+      Uma fé pequena como um grão de mostarda,
+      mas que resiste e recusa morrer.
+    </p>
+
+    <p>
+      E é com essa fé que eu <em>te agradeço agora,</em>
+      antes mesmo da resposta chegar.
+      Obrigado porque o Senhor nos sustentou até aqui.
+      Porque mesmo nos dias mais difíceis, ainda tínhamos um teto.
+      Porque minha esposa tem saúde para trabalhar.
+      Porque eu tenho saúde para buscar, aprender e lutar.
+      Porque essa história ainda não terminou.
+    </p>
+
+    <p>
+      Eu <strong>declaro que essa temporada de escassez não é meu destino.</strong>
+      Que a tristeza passará.
+      Que o medo será substituído por coragem.
+      Que a angústia dará lugar à paz.
+      Que o desespero se tornará testemunho.
+    </p>
+
+    <div class="declaration">
+      <p>
+        Eu não serei derrotado pela situação.<br />
+        Eu serei <strong>transformado</strong> por ela.<br />
+        E quando eu sair desse vale,<br />
+        sairei com uma gratidão que poucos conseguem ter.
+      </p>
+    </div>
+
+    <p>
+      Então, Senhor — <strong>abre as portas certas. Fecha as erradas.</strong>
+      Coloca no meu caminho as pessoas certas.
+      Derruba os obstáculos que eu não consigo ver.
+      Intercede por mim onde eu não tenho acesso.
+      E faz com que quando a bênção chegar,
+      eu saiba reconhecer que foi a Tua mão.
+    </p>
+
+    <p>
+      Eu me rendo ao Teu tempo. Ao Teu jeito. Ao Teu plano.<br />
+      Porque o meu planejamento falhou,
+      mas o Teu nunca falha.
+    </p>
+
+  </article>
+
+  <div class="amen">
+    <span>Amém.</span>
+    <span class="emoji">🙏</span>
+  </div>
+
+  <div class="verse">
+    <blockquote>
+      "Porque os meus pensamentos não são os vossos pensamentos,
+      nem os vossos caminhos os meus caminhos, diz o Senhor.
+      Porque, assim como os céus são mais altos do que a terra,
+      assim são os meus caminhos mais altos do que os vossos caminhos,
+      e os meus pensamentos mais altos do que os vossos pensamentos."
+    </blockquote>
+    <cite>— Isaías 55:8–9</cite>
+  </div>
+
+  <div class="divider"><span>✦</span></div>
+
+  <footer>
+    <p>Desenvolvido por <a href="https://github.com/fabriciobzrr" target="_blank" rel="noopener">Fabricio Bezerra</a></p>
+  </footer>
+
+</main>
+
+</body>
+</html>
